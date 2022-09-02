@@ -10,10 +10,8 @@ RUN \
 #   echo  "\n[global]\ntrusted-host=mirrors.aliyun.com\nindex-url=https://mirrors.aliyun.com/pypi/simple/" > ~/.pip/pip.conf; cat ~/.pip/pip.conf; 
 RUN pip config set global.index-url https://mirrors.cloud.tencent.com/pypi/simple;
 
-ARG usebranche="dev"
-
 RUN apt-get update
-RUN apt-get install -y wget unzip libzbar0 git cron supervisor
+RUN apt-get install -y wget unzip libzbar0 git cron supervisor  libasound2 fonts-liberation libatk-bridge2.0-0 libatk1.0-0  libatspi2.0-0 libcairo2 xdg-utils 
 ENV TZ=Asia/Shanghai
 ENV AccessToken=
 ENV Secret=

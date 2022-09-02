@@ -322,4 +322,4 @@ def list_messages():
 
 if __name__ == "__main__":
     CORS(app, supports_credentials=True)
-    app.run(host='0.0.0.0', port='8080', debug=True)
+    app.run(host='0.0.0.0', port='80', debug=True)

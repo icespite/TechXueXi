@@ -11,7 +11,7 @@ RUN \
 RUN pip config set global.index-url https://mirrors.cloud.tencent.com/pypi/simple;
 
 RUN apt-get update
-RUN apt-get install -y wget unzip libzbar0 git cron supervisor  libasound2 fonts-liberation libatk-bridge2.0-0 libatk1.0-0  libatspi2.0-0 libcairo2 xdg-utils 
+RUN apt-get install -y wget unzip libzbar0 git cron supervisor 
 ENV TZ=Asia/Shanghai
 ENV AccessToken=
 ENV Secret=

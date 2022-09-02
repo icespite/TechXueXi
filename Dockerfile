@@ -4,10 +4,11 @@ RUN \
   sed -i 's/snapshot.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list ;\
   sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list ;\
   sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list ;
-
-RUN \
-  mkdir ~/.pip ;\
-  echo -e "\n[global]\ntrusted-host=mirrors.aliyun.com\nindex-url=https://mirrors.aliyun.com/pypi/simple/" > ~/.pip/pip.conf
+RUN pip config set global.index-url http://mirrors.aliyun.com/pypi/simple
+RUN pip config set install.trusted-host mirrors.aliyun.com
+# RUN \
+#   mkdir ~/.pip ;\
+#   echo -e "\n[global]\ntrusted-host=mirrors.aliyun.com\nindex-url=https://mirrors.aliyun.com/pypi/simple/" > ~/.pip/pip.conf
   
   
 ARG usebranche="dev"
@@ -22,6 +23,7 @@ ENV Pushmode=1
 ENV islooplogin=False
 ENV CRONTIME="30 9 * * *"
 # RUN rm -f /xuexi/config/*; ls -la
+COPY SourcePackages/* /xuexi
 COPY requirements.txt /xuexi/requirements.txt
 COPY run.sh /xuexi/run.sh 
 COPY start.sh /xuexi/start.sh 
@@ -48,7 +50,6 @@ RUN chmod +x ./supervisor.sh;./supervisor.sh
 RUN mkdir code
 WORKDIR /xuexi/code
 # RUN git clone -b ${usebranche} ${usesource}; cp -r /xuexi/code/TechXueXi/SourcePackages/* /xuexi;
-COPY ./SourcePackages/* /xuexi
 WORKDIR /xuexi
 EXPOSE 80
 ENTRYPOINT ["/bin/bash", "./start.sh"]

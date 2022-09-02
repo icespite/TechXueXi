@@ -9,7 +9,7 @@ RUN \
 #   mkdir ~/.pip ;\
 #   echo  "\n[global]\ntrusted-host=mirrors.aliyun.com\nindex-url=https://mirrors.aliyun.com/pypi/simple/" > ~/.pip/pip.conf; cat ~/.pip/pip.conf; 
 RUN pip config set global.index-url https://mirrors.cloud.tencent.com/pypi/simple;
-RUN pip install pip -U;
+
 ARG usebranche="dev"
 
 RUN apt-get update

@@ -5,10 +5,10 @@ RUN \
   sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list ;\
   sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list ;
 
-RUN \
-  mkdir ~/.pip ;\
-  echo  "\n[global]\ntrusted-host=mirrors.aliyun.com\nindex-url=https://mirrors.aliyun.com/pypi/simple/" > ~/.pip/pip.conf; cat ~/.pip/pip.conf; 
-
+# RUN \
+#   mkdir ~/.pip ;\
+#   echo  "\n[global]\ntrusted-host=mirrors.aliyun.com\nindex-url=https://mirrors.aliyun.com/pypi/simple/" > ~/.pip/pip.conf; cat ~/.pip/pip.conf; 
+RUN pip config set global.index-url https://mirrors.cloud.tencent.com/pypi/simple;
 
 ARG usebranche="dev"
 

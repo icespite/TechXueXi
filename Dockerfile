@@ -22,7 +22,7 @@ ENV Pushmode=1
 ENV islooplogin=False
 ENV CRONTIME="30 9 * * *"
 # RUN rm -f /xuexi/config/*; ls -la
-COPY SourcePackages/* /xuexi/
+COPY SourcePackages/ /xuexi/
 COPY requirements.txt /xuexi/requirements.txt
 COPY run.sh /xuexi/run.sh 
 COPY start.sh /xuexi/start.sh 

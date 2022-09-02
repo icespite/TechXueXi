@@ -4,11 +4,10 @@ RUN \
   sed -i 's/snapshot.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list ;\
   sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list ;\
   sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list ;
-RUN pip config set global.index-url http://mirrors.aliyun.com/pypi/simple
-RUN pip config set install.trusted-host mirrors.aliyun.com
-# RUN \
-#   mkdir ~/.pip ;\
-#   echo -e "\n[global]\ntrusted-host=mirrors.aliyun.com\nindex-url=https://mirrors.aliyun.com/pypi/simple/" > ~/.pip/pip.conf
+ENV LANG=en_US.utf8
+RUN \
+  mkdir ~/.pip ;\
+  echo -e "\n[global]\ntrusted-host=mirrors.aliyun.com\nindex-url=https://mirrors.aliyun.com/pypi/simple/" > ~/.pip/pip.conf
   
   
 ARG usebranche="dev"

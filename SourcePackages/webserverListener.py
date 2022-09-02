@@ -12,6 +12,59 @@ import pandalearning as pdl
 from pdlearn import user
 from webServerConf import UserInfo, WebMessage, WebQrUrl, app, web_db, LAST_STATUS_REFRESH_ALL_COOKIES
 
+import flask_login
+import flask
+from flask_login import login_required
+app.secret_key = 'asdsadadaqwe'  # Change this!
+login_manager = flask_login.LoginManager()
+login_manager.init_app(app)
+
+
+class User(flask_login.UserMixin):
+    def __init__(self,id):
+        self.id = id
+
+icespite = User("notlogin")     
+
+@login_manager.user_loader
+def load_user(userid):
+    print("load_user",userid)
+    if userid == 'icespite':
+        return icespite
+    else:
+        return None
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if flask.request.method == 'GET':
+        return '''
+               <form action='login' method='POST'>
+                <input type='password' name='password' id='password' placeholder='password'/>
+                <input type='submit' name='submit'/>
+               </form>
+               '''
+    if  flask.request.form['password'] == "6666":
+        user = User("icespite")
+        flask_login.login_user(user)
+        return redirect('/static/index.html')
+
+    return 'Bad login'
+app.view_functions['static'] = login_required(app.send_static_file)
+@app.route('/logout')
+def logout():
+    flask_login.logout_user()
+    return 'Logged out'
+
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    return 'Unauthorized', 401
+
+
+@app.route('/protected')
+@flask_login.login_required
+def protected():
+    return 'Logged in as: ' + flask_login.current_user.id
 
 @app.before_first_request
 def create_db():
@@ -84,7 +137,8 @@ def web_log(send_log):
 
 @app.route('/')
 def hello_world():
-    return redirect('/static/index.html', code=302)
+    return redirect('/login')
+    # return redirect('/static/index.html', code=302)
 
 
 @app.route('/jump')
@@ -268,4 +322,4 @@ def list_messages():
 
 if __name__ == "__main__":
     CORS(app, supports_credentials=True)
-    app.run(host='0.0.0.0', port='80', debug=True)
+    app.run(host='0.0.0.0', port='8080', debug=True)

@@ -58,7 +58,8 @@ def logout():
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    return 'Unauthorized', 401
+    # return 'Unauthorized', 401
+    return redirect('/login')
 
 
 @app.route('/protected')
@@ -147,6 +148,7 @@ def jump_app():
 
 
 @app.route('/api/sleep/<sleep_time>')
+@flask_login.login_required
 def sleep(sleep_time):
     time.sleep(float(sleep_time))
     resp_data = dict()
@@ -155,11 +157,13 @@ def sleep(sleep_time):
 
 
 @app.route('/api/now')
+@flask_login.login_required
 def now():
     return resp_ok(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
 
 @app.route('/api/update')
+@flask_login.login_required
 def update():
     try:
         shell = "git -C /xuexi/code/TechXueXi pull $Sourcepath $pullbranche "
@@ -180,16 +184,19 @@ def update():
 
 
 @app.route('/api/list_users_status_from_memory')
+@flask_login.login_required
 def list_users_status_from_memory():
     return resp_models_ok(web_db.session.query(UserInfo).all())
 
 
 @app.route('/api/refresh_all_cookies')
+@flask_login.login_required
 def refresh_all_cookies():
     return do_refresh_all_cookies(force=False)
 
 
 @app.route('/api/force_refresh_all_cookies')
+@flask_login.login_required
 def force_refresh_all_cookies():
     return do_refresh_all_cookies(force=True)
 
@@ -210,6 +217,7 @@ def do_refresh_all_cookies(force):
 
 
 @app.route('/api/add')
+@flask_login.login_required
 def add():
 
     filename = os.path.join('user', 'user_status.json')
@@ -244,6 +252,7 @@ def add():
 
 
 @app.route('/api/learn')
+@flask_login.login_required
 def learn():
     ''' 新线程无法操控内存数据库'''
     # web_db.session.add(WebMessage('新线程无法操控内存数据库'))
@@ -258,6 +267,7 @@ def learn():
 
 
 @app.route('/api/learn_by_nick_name/<nick_name>')
+@flask_login.login_required
 def learn_by_nick_name(nick_name):
     names = pdl.get_all_user_name()
     if len(names) <= 1:
@@ -271,6 +281,7 @@ def learn_by_nick_name(nick_name):
 
 
 @app.route('/api/learn_by_uid/<uid>')
+@flask_login.login_required
 def learn_by_uid(uid):
     pdl.start_learn(uid, None)
     return web_log_and_resp_ok('开始学习：{}'.format(user.get_fullname(uid)))
@@ -282,6 +293,7 @@ def list_user():
 
 
 @app.route('/api/remove_cookie/<uid>')
+@flask_login.login_required
 def remove_cookie(uid):
     user_name = user.get_fullname(uid)
     msg = 'uid: {}  ,username: {} 状态清除成功'.format(uid, user_name)
@@ -291,6 +303,7 @@ def remove_cookie(uid):
 
 
 @app.route('/api/list_qrurls')
+@flask_login.login_required
 def list_qrurls():
     qrurls = web_db.session.query(WebQrUrl).all()
     # print(
@@ -306,6 +319,7 @@ def list_qrurls():
 
 
 @app.route('/api/list_messages')
+@flask_login.login_required
 def list_messages():
     messages = web_db.session.query(WebMessage).all()
     # print(

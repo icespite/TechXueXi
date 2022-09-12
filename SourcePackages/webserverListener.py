@@ -47,7 +47,7 @@ def login():
     if  flask.request.form['password'] == "6666":
         user = User("icespite")
         flask_login.login_user(user)
-        return redirect('/static/index.html')
+        return redirect('/static/admin.html')
 
     return 'Bad login'
 app.view_functions['static'] = login_required(app.send_static_file)
@@ -139,7 +139,7 @@ def web_log(send_log):
 @app.route('/')
 def hello_world():
     return redirect('/login')
-    # return redirect('/static/index.html', code=302)
+    # return redirect('/static/admin.html', code=302)
 
 
 @app.route('/jump')
